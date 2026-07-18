@@ -24,7 +24,10 @@ cfg["hand_tracking"] = False
 json.dump(cfg, open(cfg_path, "w", encoding="utf-8"))
 
 from jarvis_master import Jarvis
-from download import register_download_routes
+try:
+    from download import register_download_routes
+except ImportError:
+    def register_download_routes(app): pass
 
 app = Flask(__name__, static_folder=str(BASE_DIR))
 CORS(app)
@@ -67,8 +70,8 @@ def api_status():
         "engine": jarvis.cfg.get("active_model", "groq").upper(),
         "model": jarvis.cfg.get(f"{jarvis.cfg.get('active_model', 'groq')}_model", "?"),
         "voice_enabled": jarvis.cfg.get("voice_enabled", True),
-        "custom_voice": voice_ready(),
-        "transcription": "local (faster-whisper)" if not _whisper_model is None else "loading",
+        "custom_voice": False,
+        "transcription": "not available",
         "hostname": os.environ.get("COMPUTERNAME", "unknown"),
         "cpu": psutil.cpu_percent(interval=0.2),
         "memory": psutil.virtual_memory().percent,

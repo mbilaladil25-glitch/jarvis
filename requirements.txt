@@ -1,4 +1,5 @@
 flask>=3.0
+flask-cors>=4.0
 flask-httpauth>=4.0
 gunicorn>=20.0
 gradio>=5.0
