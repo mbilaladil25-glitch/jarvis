@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: jarvis
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn web_ui:app --bind 0.0.0.0:$PORT --workers 2 --threads 4 --worker-class gthread --timeout 120 --keep-alive 60
+    envVars:
+      - key: GROQ_API_KEY
+        value: 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
+      - key: GEMINI_API_KEY
+        value: AIzaSyAAt9Q8XKxR54YshexUsy9BdoNmekPwBBI
